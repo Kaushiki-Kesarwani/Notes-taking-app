@@ -6,7 +6,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5002;
 connectionDB();
-
+app.use(express.json());
 app.use('/api/notes',notesRoutes);
 
 app.listen(port, () => {
