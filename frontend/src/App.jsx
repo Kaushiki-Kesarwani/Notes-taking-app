@@ -4,8 +4,12 @@ import {createBrowserRouter,RouterProvider} from 'react-router';
 import Home from './pages/Homepage.jsx';
 import Create from './pages/Createpage.jsx';
 import Notedetails from './pages/Notedetailspage.jsx';
+import toast , {Toaster} from 'react-hot-toast';
+
+
 
 function App() {
+  const notify = () => toast.loading('Congratulations.');  
 const router = createBrowserRouter([
   {
     path:'/',
@@ -21,9 +25,11 @@ const router = createBrowserRouter([
   },
 ]);
   return (
-    <>
+    <div>
+      <button onClick={notify}>click</button>
+      <Toaster />
       <RouterProvider router={router} />
-    </>
+    </div>
   )
 }
 
