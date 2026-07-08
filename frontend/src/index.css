@@ -1,0 +1,6 @@
+
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: light --default, dark, dracula, cupcake, forest,luxury,coffee,cyberpunk,business,retro;
+}
