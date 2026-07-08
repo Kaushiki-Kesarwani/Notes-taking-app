@@ -25,9 +25,13 @@ const router = createBrowserRouter([
   },
 ]);
   return (
-    <div>
-      <button onClick={notify}>click</button>
-      <Toaster />
+    <div data-theme="night"
+      className="min-h-screen ">
+      {/* <h1 class="text-3xl font-bold underline ">hellooooo!</h1>
+      <button className='btn btn-secondary'>Click me!</button> */}
+       
+      {/* <button onClick={notify} className='bg-blue-500 text-white px-4 py-2 rounded'>click</button>
+      <Toaster /> */}
       <RouterProvider router={router} />
     </div>
   )
