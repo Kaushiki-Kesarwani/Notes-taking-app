@@ -25,13 +25,14 @@ const router = createBrowserRouter([
   },
 ]);
   return (
-    <div data-theme="night"
-      className="min-h-screen ">
+     <div className="relative min-h-screen overflow-hidden bg-base-200">
+  <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(34,197,94,0.18),transparent_45%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.12),transparent_40%),linear-gradient(to_bottom,var(--fallback-b1,#18181b),var(--fallback-b2,#111827))]" />
+
       {/* <h1 class="text-3xl font-bold underline ">hellooooo!</h1>
       <button className='btn btn-secondary'>Click me!</button> */}
        
-      {/* <button onClick={notify} className='bg-blue-500 text-white px-4 py-2 rounded'>click</button>
-      <Toaster /> */}
+      {/* <button onClick={notify} className='bg-blue-500 text-white px-4 py-2 rounded'>click</button> */}
+      <Toaster />
       <RouterProvider router={router} />
     </div>
   )
