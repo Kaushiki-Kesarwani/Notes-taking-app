@@ -5,6 +5,7 @@ import RateLimitedUI from '../components/RatelimitedUI'
 import toast from 'react-hot-toast';
 import Notecard from '../components/Notecard';
 import api from '../lib/axios';
+import NotesNotFound from '../components/NotesNotFound';
 
 const Homepage = () => {
   const[isRatelimited, setIsRatelimited] = useState(false);
@@ -46,6 +47,8 @@ const Homepage = () => {
       Loading notes...
     </div>
   )}
+
+  {notes.length === 0  && !isRatelimited && <NotesNotFound /> }
 
   {!loading && notes.length > 0 && !isRatelimited && (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
