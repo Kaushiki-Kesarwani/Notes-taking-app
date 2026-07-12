@@ -3,6 +3,7 @@ import notesRoutes from "./routes/notesRoutes.js";
 import { connectionDB } from "./config/db.js";
 import dotenv from "dotenv";
 import ratelimiter from './middleware/rateLimiter.js'
+import authRoutes from "./routes/auth.route.js"
 import cors from "cors";
 
 
@@ -19,7 +20,7 @@ app.use(cors(
 app.use(express.json());
 app.use(ratelimiter); 
 
-
+app.use("/api/auth",authRoutes);
 app.use("/api/notes", notesRoutes);
 
 
