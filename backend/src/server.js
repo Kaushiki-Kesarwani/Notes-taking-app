@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import ratelimiter from './middleware/rateLimiter.js'
 import authRoutes from "./routes/auth.route.js"
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(cors(
   }
 ));
 app.use(express.json());
+app.use(cookieParser());
 app.use(ratelimiter); 
 
 app.use("/api/auth",authRoutes);
