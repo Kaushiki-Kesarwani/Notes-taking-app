@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 export const protect = (req,res,next)=>{
     try{
-        const token = res.cookies.token;
+        const token = req.cookies.token;
 
         if(!token){
             return res.status(401).json({
@@ -13,7 +13,7 @@ export const protect = (req,res,next)=>{
 
         const decoded = jwt.verify(token,process.env.JWT_SECRET);
 
-        res.userId = decoded.userId;
+        req.userId = decoded.userId;
 
         next();
     }catch{
