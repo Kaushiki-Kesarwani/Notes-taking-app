@@ -5,6 +5,8 @@ import Home from './pages/Homepage.jsx';
 import Create from './pages/Createpage.jsx';
 import Notedetails from './pages/Notedetailspage.jsx';
 import toast , {Toaster} from 'react-hot-toast';
+import SignupPage from './pages/signupPage.jsx';
+import Login  from './pages/loginPage.jsx'
 
 
 
@@ -23,6 +25,14 @@ const router = createBrowserRouter([
     path:'/notes/:id',
     element:<Notedetails />
   },
+  {
+    path:'/signup',
+    element:<SignupPage/>
+  },
+  {
+    path:'/login',
+    element:<Login/>
+  }
 ]);
   return (
      <div className="relative min-h-screen overflow-hidden bg-base-200">

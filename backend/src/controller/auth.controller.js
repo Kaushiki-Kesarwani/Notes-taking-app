@@ -123,6 +123,8 @@ export const login = async (req,res)=>{
             message:"logout successfully"
         });
     }catch(err){
+         console.log(err);
+         
         return res.status(500).json({
             success:false,
             message:"Internal server error"
