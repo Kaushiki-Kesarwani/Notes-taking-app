@@ -10,10 +10,18 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () =>{
             try{
                 const res = await api.get("/auth/me")
+                console.log(res);
+              setUser(res.data.user);
             }catch(err){
-
+                setUser(null);
+            }finally{
+                setLoading(false);
             }
     } ;
+  
+    useEffect(()=>{
+        checkAuth()
+    },[]);
     return(
         <AuthContext.Provider
              value={{
@@ -21,9 +29,23 @@ export const AuthProvider = ({ children }) => {
                 setUser,
                 loading,
                 setLoading,
+                login
             }}
         >
             {children}
         </AuthContext.Provider>
     );
+};
+
+const login = async (email,password)=>{
+    try{
+       const success = await api.post('/auth/login',{
+            email,
+            password
+        });
+
+        await checkAuth();
+    }catch(err){
+        throw err;
+    }
 };
