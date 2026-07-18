@@ -18,28 +18,9 @@ export const AuthProvider = ({ children }) => {
                 setLoading(false);
             }
     } ;
-  
-    useEffect(()=>{
-        checkAuth()
-    },[]);
-    return(
-        <AuthContext.Provider
-             value={{
-                user,
-                setUser,
-                loading,
-                setLoading,
-                login
-            }}
-        >
-            {children}
-        </AuthContext.Provider>
-    );
-};
-
-const login = async (email,password)=>{
+    const login = async (email,password)=>{
     try{
-       const success = await api.post('/auth/login',{
+        await api.post('/auth/login',{
             email,
             password
         });
@@ -49,3 +30,31 @@ const login = async (email,password)=>{
         throw err;
     }
 };
+const logout = async ()=>{
+    try{
+        await api.post('/auth/logout');
+    setUser(null);
+    }catch(err){
+        throw err;
+    }
+
+    
+}
+  
+    useEffect(()=>{
+        checkAuth()
+    },[]);
+    return(
+        <AuthContext.Provider
+             value={{
+                user,
+                loading,
+                login,
+                 logout,
+            }}
+        >
+            {children}
+        </AuthContext.Provider>
+    );
+};
+

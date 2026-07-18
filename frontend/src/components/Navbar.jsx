@@ -1,8 +1,26 @@
-import React from "react";
+import React, { use } from "react";
 import { Link } from "react-router";
 import { NotebookPen, PlusIcon } from "lucide-react";
+import {useContext} from "react";
+import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
+import { AuthContext } from "../context/AuthContext";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const{logout} = useContext(AuthContext);
+
+  const handleLogout = async ()=>{
+  try{
+    await logout();
+    toast.success("Logout successful");
+    navigate("/login");
+
+  }catch(err){
+    toast.error("Logout failed");
+  }
+  };
+  
   return (
     <header className="sticky top-0 z-50 bg-base-100/90 backdrop-blur-lg border-b border-base-300 shadow-md">
       <div className="max-w-7xl mx-auto px-6 py-4">
@@ -28,13 +46,24 @@ const Navbar = () => {
           </Link>
 
           {/* Create Button */}
-          <Link
+          <div className="flex items-center gap-3">
+
+        <Link
             to="/create"
             className="btn btn-primary rounded-xl shadow-lg hover:shadow-primary/30 hover:scale-105 transition-all duration-300"
-          >
+        >
             <PlusIcon className="size-5" />
             <span>Create Note</span>
-          </Link>
+        </Link>
+
+        <button
+            onClick={handleLogout}
+            className="btn btn-error rounded-xl"
+        >
+            Logout
+        </button>
+
+    </div>
 
         </div>
       </div>
