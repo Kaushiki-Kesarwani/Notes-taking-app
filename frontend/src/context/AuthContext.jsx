@@ -36,11 +36,22 @@ const logout = async ()=>{
     setUser(null);
     }catch(err){
         throw err;
-    }
-
-    
+    }  
 }
-  
+
+const signup = async (name,email,password)=>{
+    try{
+        await api.post('/auth/signup',{
+         name,
+        email,
+        password,
+        });
+       
+    }catch(err){
+        throw err;
+    }  
+}
+
     useEffect(()=>{
         checkAuth()
     },[]);
@@ -51,6 +62,7 @@ const logout = async ()=>{
                 loading,
                 login,
                  logout,
+                 signup,
             }}
         >
             {children}
