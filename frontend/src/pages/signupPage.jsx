@@ -3,14 +3,18 @@ import{useState} from 'react'
 import{Link,useNavigate} from 'react-router'
 import toast from 'react-hot-toast'
 import api from '../lib/axios'
+import { useContext } from 'react'
+import { AuthContext } from '../context/AuthContext'
 
 const SignupPage = () => {
+  const{signup} = useContext(AuthContext);
     const[name,setName] = useState("");
     const[email,setEmail] = useState("");
     const[password,setPassword] = useState("");
     const[loading,setLoading] = useState(false);
 
     const navigate = useNavigate();
+
 
     const handleSubmit= async (e)=>{
         e.preventDefault();
@@ -23,11 +27,7 @@ const SignupPage = () => {
         setLoading(true);
 
         try{
-            await api.post('/auth/signup',{
-                name,
-                email,
-                password,
-            });
+            await signup(name,email,password);
 
             toast.success("Account created successfully.");
             navigate("/login");

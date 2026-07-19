@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router";
-import { DeleteIcon, PenSquareIcon, Trash2Icon } from "lucide-react";
+import { PenSquareIcon, Trash2Icon } from "lucide-react";
 import { formatDate } from "../lib/utils";
 import api from "../lib/axios";
 import toast from "react-hot-toast";
 
-const Notecard = ({ note }) => {
+const Notecard = ({ note, setNotes }) => {
   const handleDelete = async (e) => {
     e.preventDefault();
 
@@ -13,6 +13,7 @@ const Notecard = ({ note }) => {
       try {
         await api.delete(`/notes/${note._id}`);
         toast.success("Note deleted successfully!");
+        setNotes((prev) => prev.filter((n) => n._id !== note._id));
       } catch (error) {
         console.log(error);
         toast.error("Failed to delete note.");
@@ -28,9 +29,7 @@ const Notecard = ({ note }) => {
       <div className="card-body p-0">
         <h2 className="card-title text-base-content">{note.title}</h2>
 
-        <p className="text-base-content/70 line-clamp-3 mt-2">
-          {note.content}
-        </p>
+        <p className="text-base-content/70 line-clamp-3 mt-2">{note.content}</p>
 
         <div className="card-actions justify-between items-center mt-4">
           <span className="text-sm text-base-content/60">
@@ -39,17 +38,15 @@ const Notecard = ({ note }) => {
 
           <div className="flex items-center gap-1">
             <PenSquareIcon className="size-4 text-primary" />
-        
 
-          <button
-  onClick={handleDelete}
-  className="flex items-center justify-center w-9 h-9 rounded-full text-error hover:bg-error/15 hover:text-error transition-all duration-200 hover:scale-110 active:scale-95"
-  title="Delete Note"
->
-  <Trash2Icon className="size-4" />
-</button>
-
-            </div>
+            <button
+              onClick={handleDelete}
+              className="flex items-center justify-center w-9 h-9 rounded-full text-error hover:bg-error/15 hover:text-error transition-all duration-200 hover:scale-110 active:scale-95"
+              title="Delete Note"
+            >
+              <Trash2Icon className="size-4" />
+            </button>
+          </div>
         </div>
       </div>
     </Link>
