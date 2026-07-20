@@ -72,14 +72,14 @@ export const deleteNotes =async (req,res) =>{
    
 }
 
-// export const getSpecificNote = async (req,res) =>{
-//     try{
-//         const note = await Note.findById(req.params.id);
-//         if(!note){
-//             return res.status(404).json({msg:"Note not found"});
-//         }
-//         res.status(200).json(note);
-//     }catch(err){
-//          res.status(500).json({message:"Internal server error."});
-//     }
-// }
+export const getSpecificNote = async (req,res) =>{
+    try{
+        const note = await Note.findById(req.params.id);
+        if(!note){
+            return res.status(404).json({msg:"Note not found"});
+        }
+        res.status(200).json(note);
+    }catch(err){
+         res.status(500).json({message:"Internal server error."});
+    }
+}
