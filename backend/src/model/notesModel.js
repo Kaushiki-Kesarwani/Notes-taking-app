@@ -12,6 +12,16 @@ const NotesSchema = new mongoose.Schema(
         required: true,
     },
 
+    categories: {
+        type:String,
+        default:"personal"
+    },
+
+    tags: {
+        type:[String],
+        default:[]
+    },
+
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
