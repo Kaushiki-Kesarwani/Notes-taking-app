@@ -3,7 +3,30 @@ import {Note} from '../model/notesModel.js'
 
 export const getNotes = async (req,res) =>{
    try{
-    const notes = await Note.find({ user: req.userId}).sort({ createdAt:-1 });//newest one
+    const {search} = req.query;
+
+    let notes;
+    if(search){
+        notes = await Note.find({user:req.userId,
+        $or:[
+            {
+                title:{
+                    $regex:search,
+                    $options:"i"
+                },
+            },
+            {
+                content:{
+                    $regex:search,
+                    $options:"i"
+                },
+            },
+        ],
+    }).sort({createdAt:-1});
+    }else{
+         notes = await Note.find({ user: req.userId}).sort({ createdAt:-1 });//newest one
+    }
+   
     res.status(200).json(notes);
    }catch(err){
     res.status(500).json({message:"Internal server error."});
