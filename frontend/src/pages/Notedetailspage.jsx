@@ -9,6 +9,8 @@ const NoteDetailPage = () => {
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [tagInput,setTagInput] = useState("");
+   
 
   const navigate = useNavigate();
 
@@ -74,6 +76,31 @@ const NoteDetailPage = () => {
     );
   }
 
+
+   const handleAddTag = () => {
+      const newTag = tagInput.trim();
+  
+      if (!newTag) return;
+  
+      if (note.tags?.some((tag)=> tag.toLowerCase() === newTag.toLowerCase())) {
+        toast.error("Tag already exists");
+        return;
+      }
+      setNote({...note, tags: [...(note.tags || []), newTag]});
+      setTagInput("");
+    };
+  
+    const handleRemoveTag = (tagToRemove) => {
+     setNote({...note, tags:note.tags.filter((tag) => tag !== tagToRemove)});
+    };
+  
+    const handleKeyDown = (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleAddTag();
+      }
+    };
+
   return (
     <div className="min-h-screen bg-base-200 relative">
       <div className="container mx-auto px-4 py-12">
@@ -103,6 +130,87 @@ const NoteDetailPage = () => {
                   onChange={(e) => setNote({ ...note, title: e.target.value })}
                 />
               </div>
+
+
+
+              {/* Category */}
+
+<div className="form-control mb-4">
+  <label className="label">
+    <span className="label-text">Category</span>
+  </label>
+
+  <select
+    className="select select-bordered w-full"
+    value={note.categories || "Personal"}
+    onChange={(e) =>
+      setNote({
+        ...note,
+        categories: e.target.value,
+      })
+    }
+  >
+    <option value="Personal">Personal</option>
+    <option value="Study">Study</option>
+    <option value="Work">Work</option>
+    <option value="Important">Important</option>
+  </select>
+</div>
+
+
+<div className="form-control mb-4">
+  <label className="label">
+    <span className="label-text">Tags</span>
+  </label>
+
+  {/* Input Row */}
+  <div className="flex gap-2">
+    <input
+      type="text"
+      placeholder="Add a tag"
+      className="input input-bordered flex-1"
+      value={tagInput}
+      onChange={(e) => setTagInput(e.target.value)}
+      onKeyDown={handleKeyDown}
+    />
+
+    <button
+      type="button"
+      className="btn btn-primary"
+      onClick={handleAddTag}
+    >
+      Add
+    </button>
+  </div>
+
+  {/* Tags Row */}
+  {note.tags?.length > 0 && (
+    <div className="flex flex-wrap gap-2 mt-4">
+      {note.tags.map((tag) => (
+        <div
+          key={tag}
+          className="badge badge-primary gap-2 px-3 py-4"
+        >
+          {tag}
+
+          <button
+            type="button"
+            className="ml-1 shrink-0"
+            onClick={() => handleRemoveTag(tag)}
+          >
+            ✕
+          </button>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
+  
+
+
+
+
 
               <div className="form-control mb-4">
                 <label className="label">

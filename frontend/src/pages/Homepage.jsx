@@ -13,6 +13,8 @@ const Homepage = () => {
   const [searching, setSearching] = useState(false);
   const [search, setSearch] = useState("");
 
+
+
   const fetchNotes = async () => {
     const trimmedSearch = search.trim();
 
@@ -50,6 +52,7 @@ const Homepage = () => {
 
     return () => clearTimeout(timer);
   }, [search]);
+
 
   return (
     <div className="min-h-screen">

@@ -35,8 +35,8 @@ export const getNotes = async (req,res) =>{
 
 export const createNotes = async (req,res) =>{
     try{
- const{title,content} = req.body;
-    const note = new Note({title,content,user:req.userId });
+ const{title,content,categories,tags} = req.body;
+    const note = new Note({title,content,user:req.userId,categories,tags });
     const notes = await note.save();
     res.status(201).json({
         success:true,
@@ -50,7 +50,7 @@ export const createNotes = async (req,res) =>{
 
 export const updateNotes = async (req,res) =>{
     try{
-        const{title,content} = req.body;
+        const{title,content,categories,tags} = req.body;
        const note = await Note.findOne({
     _id: req.params.id,
     user: req.userId,
@@ -64,6 +64,14 @@ export const updateNotes = async (req,res) =>{
         }
         if(content){
             note.content = content;
+        }
+
+        if(categories){
+            note.categories = categories;
+        }
+
+        if(tags){
+            note.tags = tags;
         }
         
         await note.save();
