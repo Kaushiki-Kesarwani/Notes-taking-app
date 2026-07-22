@@ -21,17 +21,60 @@ const Notecard = ({ note, setNotes }) => {
     }
   };
 
+  const categoryColor = {
+  Personal: "badge-success",
+  Study: "badge-info",
+  Work: "badge-secondary",
+  Important: "badge-error",
+};
+
   return (
     <Link
       to={`/notes/${note._id}`}
       className="block bg-base-100 p-5 rounded-2xl border border-base-300 shadow-[0_10px_30px_rgba(0,0,0,0.12)] hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(0,0,0,0.22)] transition-all duration-300"
     >
+
+
+
+
+
+
       <div className="card-body p-0">
-        <h2 className="card-title text-base-content">{note.title}</h2>
+        <h2 className="card-title text-base-content mb-2">{note.title}</h2>
+
+
+      <div className="mt-2">
+  <span
+    className={`badge ${
+      categoryColor[note.categories] || "badge-neutral"
+    }`}
+  >
+    {note.categories}
+  </span>
+</div>
+
+{note.tags?.length > 0 && (
+  <div className="flex flex-wrap gap-2 mt-3">
+    {note.tags.slice(0, 3).map((tag) => (
+      <span
+        key={tag}
+        className="badge badge-outline badge-sm max-w-full truncate"
+      >
+        #{tag}
+      </span>
+    ))}
+
+    {note.tags.length > 3 && (
+      <span className="badge badge-outline badge-sm">
+        +{note.tags.length - 3}
+      </span>
+    )}
+  </div>
+)}
 
         <p className="text-base-content/70 line-clamp-3 mt-2">{note.content}</p>
 
-        <div className="card-actions justify-between items-center mt-4">
+        <div className="card-actions justify-between items-center mt-5 pt-4 border-t border-base-300">
           <span className="text-sm text-base-content/60">
             {formatDate(new Date(note.createdAt))}
           </span>

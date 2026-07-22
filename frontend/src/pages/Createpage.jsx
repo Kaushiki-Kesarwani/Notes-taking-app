@@ -8,6 +8,9 @@ const CreatePage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
+  const [category, setCategory] = useState("Personal");
+  const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState("");
 
   const navigate = useNavigate();
 
@@ -25,6 +28,8 @@ const CreatePage = () => {
       await api.post("/notes/add", {
         title,
         content,
+        category,
+        tags,
       });
 
       toast.success("Note created successfully!");
@@ -45,6 +50,30 @@ const CreatePage = () => {
     }
   };
 
+  const handleAddTag = () => {
+    const newTag = tagInput.trim();
+
+    if (!newTag) return;
+
+    if (tags.some((tag)=> tag.toLowerCase() === newTag.toLowerCase())) {
+      toast.error("Tag already exists");
+      return;
+    }
+    setTags([...tags, newTag]);
+    setTagInput("");
+  };
+
+  const handleRemoveTag = (tagToRemove) => {
+   setTags(tags.filter((tag) => tag !== tagToRemove));
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleAddTag();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-base-200">
       {/* Background Glow */}
@@ -53,10 +82,7 @@ const CreatePage = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-3xl mx-auto">
           {/* Back Button */}
-          <Link
-            to="/"
-            className="btn btn-ghost gap-2 mb-8 hover:bg-base-300"
-          >
+          <Link to="/" className="btn btn-ghost gap-2 mb-8 hover:bg-base-300">
             <ArrowLeftIcon className="size-5" />
             Back to Notes
           </Link>
@@ -87,6 +113,72 @@ const CreatePage = () => {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
+              </div>
+
+              {/*categories*/}
+
+              <div className="form-control mb-5">
+                <label className="label">
+                  <span className="label-text font-semibold">Category</span>
+                </label>
+
+                <select
+                  className="select select-bordered w-full"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
+                  <option value="Personal">Personal</option>
+                  <option value="Study">Study</option>
+                  <option value="Work">Work</option>
+                  <option value="Important">Important</option>
+                </select>
+              </div>
+
+              {/* tags */}
+
+              <div className="form-control mb-5">
+                <label className="label">
+                  <span className="label-text font-semibold">Tags</span>
+                </label>
+
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    className="input input-bordered flex-1"
+                    placeholder="Add a tag"
+                    value={tagInput}
+                    onChange={(e) => setTagInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                  />
+
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={handleAddTag}
+                  >
+                    Add
+                  </button>
+                </div>
+
+                {tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {tags.map((tag) => (
+                      <div
+                        key={tag}
+                        className="badge badge-primary gap-2 px-3 py-4"
+                      >
+                        {tag}
+
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveTag(tag)}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Content */}
