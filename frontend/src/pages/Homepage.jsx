@@ -60,18 +60,18 @@ const Homepage = () => {
 
       <div className="max-w-7xl mx-auto p-4 mt-6">
         {/* Search */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-8">
+        <div className="flex flex-col sm:flex-row gap-3 mb-6">
           <input
             type="text"
             placeholder="🔍 Search notes..."
-            className="input input-bordered flex-1"
+            className="input input-bordered flex-1 w-full"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
 
           {search && (
             <button
-              className="btn btn-outline"
+              className="btn btn-outline w-full sm:w-auto"
               onClick={() => setSearch("")}
             >
               Clear
