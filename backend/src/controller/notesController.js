@@ -114,3 +114,29 @@ export const getSpecificNote = async (req,res) =>{
          res.status(500).json({message:"Internal server error."});
     }
 }
+
+export const togglePinNote = async (req,res)=>{
+    try{
+        const note = await Note.findOne({
+            _id:req.params.id,
+            user:req.userId
+        })
+
+        if(!note){
+            return res.status(404).json({
+                success:false,
+                message:"Note not found."
+            });
+        }
+
+        note.isPinned = !note.isPinned;
+        await note.save();
+        return res.status(200).json(note);
+
+    }catch(err){
+        return res.status(500).json({
+            success:false,
+            message:"Internal server error."
+        });
+    }
+}
