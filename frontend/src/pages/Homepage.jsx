@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import RateLimitedUI from "../components/RatelimitedUI";
 import toast from "react-hot-toast";
@@ -12,8 +12,6 @@ const Homepage = () => {
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
   const [search, setSearch] = useState("");
-
-
 
   const fetchNotes = async () => {
     const trimmedSearch = search.trim();
@@ -53,6 +51,10 @@ const Homepage = () => {
     return () => clearTimeout(timer);
   }, [search]);
 
+  const sortedNotes = [...notes].sort((a, b) => {
+  if (a.isPinned === b.isPinned) return 0;
+  return a.isPinned ? -1 : 1;
+});
 
   return (
     <div className="min-h-screen">
@@ -94,27 +96,19 @@ const Homepage = () => {
           <div className="flex items-center justify-center gap-2 py-4">
             <span className="loading loading-spinner loading-sm"></span>
             <p className="text-base-content/70">
-              Searching for{" "}
-              <span className="font-semibold">"{search}"</span>...
+              Searching for <span className="font-semibold">"{search}"</span>...
             </p>
           </div>
         )}
 
         {/* Notes Grid */}
-        {!loading &&
-          !searching &&
-          notes.length > 0 &&
-          !isRatelimited && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {notes.map((note) => (
-                <Notecard
-                  key={note._id}
-                  note={note}
-                  setNotes={setNotes}
-                />
-              ))}
-            </div>
-          )}
+        {!loading && !searching && notes.length > 0 && !isRatelimited && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {sortedNotes.map((note) => (
+              <Notecard key={note._id} note={note} setNotes={setNotes} />
+            ))}
+          </div>
+        )}
 
         {/* No Search Results */}
         {!loading &&
@@ -125,8 +119,7 @@ const Homepage = () => {
             <div className="text-center py-16">
               <h2 className="text-2xl font-bold">No notes found</h2>
               <p className="text-base-content/70 mt-2">
-                No notes match{" "}
-                <span className="font-semibold">"{search}"</span>
+                No notes match <span className="font-semibold">"{search}"</span>
               </p>
             </div>
           )}
